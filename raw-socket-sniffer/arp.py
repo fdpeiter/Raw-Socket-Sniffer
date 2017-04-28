@@ -1,4 +1,5 @@
 import binascii
+from tools import *
 
 
 class ARP:
@@ -9,16 +10,11 @@ class ARP:
         src_addr_raw = binascii.hexlify(hex_data[14:18])
         dst_mac_raw = binascii.hexlify(hex_data[18:24])
         dst_addr_raw = binascii.hexlify(hex_data[24:28])
-        self.dst_mac = ':'.join([dst_mac_raw[i:i+2] for i in range(0, len(dst_mac_raw), 2)])
-        self.src_mac = ':'.join([src_mac_raw[i:i+2] for i in range(0, len(src_mac_raw), 2)])
-        self.src_add = self.format_ip(src_addr_raw)
-        self.dst_add = self.format_ip(dst_addr_raw)
-        hex_data = hex_data[-14:]
+        self.dst_mac = format_mac(dst_mac_raw)
+        self.src_mac = format_mac(src_mac_raw)
+        self.src_add = format_ip(src_addr_raw)
+        self.dst_add = format_ip(dst_addr_raw)
 
-    def format_ip(self, hex_addr):
-        octets = [hex_addr[i:i + 2] for i in range(0, len(hex_addr), 2)]
-        ip = [int(i, 16) for i in reversed(octets)]
-        return '.'.join(str(i) for i in ip)
 
     def __str__(self):
         answer = ("-"*45)
