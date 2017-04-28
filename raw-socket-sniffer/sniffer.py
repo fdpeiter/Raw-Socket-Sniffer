@@ -1,6 +1,7 @@
 import socket
 from ethernet import Ethernet
 from arp import ARP
+#from ipv4 import IPv4
 
 BUFFER_SIZE = 65535
 
@@ -14,12 +15,20 @@ def main():
     conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
     while True:
         raw_data, addr = conn.recvfrom(BUFFER_SIZE)
+        total_count += 1
+        print len(raw_data)
         eth = Ethernet(raw_data)
-        raw_data = raw_data[-14:]
+        print len(raw_data)
         print eth
 
         if eth.proto == ARP_PROTO_CODE:
             arp_count += 1
             arp = ARP(raw_data)
             print arp
+        elif eth.proto == IPV4_PROTO_CODE:
+            ipv4_count += 1
+            #ipv4 = IPv4(raw_data)
+        elif eth.proto == IPV6_PROTO_CODE:
+            ipv6_count += 1
+
 

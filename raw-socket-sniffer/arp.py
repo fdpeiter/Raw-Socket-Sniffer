@@ -13,6 +13,7 @@ class ARP:
         self.src_mac = ':'.join([src_mac_raw[i:i+2] for i in range(0, len(src_mac_raw), 2)])
         self.src_add = self.format_ip(src_addr_raw)
         self.dst_add = self.format_ip(dst_addr_raw)
+        hex_data = hex_data[-14:]
 
     def format_ip(self, hex_addr):
         octets = [hex_addr[i:i + 2] for i in range(0, len(hex_addr), 2)]
